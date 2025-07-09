@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.url-input-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+
+
+#urlInput {
+    padding: 10px;
+    position: relative;
+    left: 15%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 70%;
+    font-size: 16px;
+}
+
+#generateButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    position: relative;
+    left: 34%;
+    top: 10px;
+}
+
+#generateButton:hover {
+    background-color: #0056b3;
+}
+
+.shortened-url-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#shortenedUrl {
+    display: block;
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    color: #333;
+}
+
+#urlTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#urlTable th, #urlTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+#urlTable th {
+    background-color: #007bff;
+    color: white;
+}
+
+#urlTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+</style>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <div class="url-input-section">
+        <form action="/api/create/shorturl" method="POST">
+            <input type="text" id="urlInput" name="url" placeholder="Enter your URL here">
+            <button type="submit" id="generateButton">Generate</button>
+        </form>
+        </div>
+        <div class="shortened-url-section">
+        <span id="shortenedUrl">
+                <% if (shortURL) { %>
+                    <%= "localhost:8484/api/redirect/" + shortURL %>
+                    <% } else { %>
+                        Shortened URL will appear here
+                    <% } %>
+        </span>
+        </div>
+        <table id="urlTable">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Original URL</th>
+                    <th>Shortened URL</th>
+                    <th>Number of Clicks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (result) { %>
+                    <% result.forEach((element, index) => { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td><%= element.originalURL %></td>
+                            <td><%= "localhost:8484/api/redirect/" + element.shortid %></td>
+                            <td><%= element.visitHistory.length %></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4">No URLs created yet.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
