@@ -14,7 +14,7 @@ app.listen(PORT, ()=>{
 })
 
 //Database-------------------------------------------------------------------------------
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(`mongodb://0.0.0.0/URLShortner`) //process.env.MONGO_URI use this while making docker image
 .then(()=>{
     console.log("DB Connected")
 })
