@@ -1,5 +1,6 @@
 //Dependencies---------------------------------------------------------------------------
 const express = require("express")
+const env = require("dotenv").config() // this module help to read .env file
 const ejs = require("ejs") // this is a external module help to render html page
 const cookieParser = require('cookie-parser');
 const path = require('path'); //this module help in defining the path of any directory
@@ -13,7 +14,7 @@ app.listen(PORT, ()=>{
 })
 
 //Database-------------------------------------------------------------------------------
-mongoose.connect("mongodb://localhost/URLShortner")
+mongoose.connect(process.env.MONGO_URI)
 .then(()=>{
     console.log("DB Connected")
 })

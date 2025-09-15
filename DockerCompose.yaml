@@ -1,0 +1,28 @@
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017" #Port bindinfg need when we want to acces container from host machine instead of it we can also use EXPOSE port which we can do when container need to connect with another container on same network
+    volumes:
+      - mongo-data:/data/db
+    environment: # these envs are necessary to connect with mongo db
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: root
+
+  urlshortner: #this is called service name used for network communication inside Compose. 
+    image: myapp:1.0 # here instead of myapp:1.0  image name we can also use build: . to build the image using Dockerfile directly
+    container_name: urlshortnerapp
+    ports:
+      - "8484:8484"
+    environment: #through this URI app is connected with mongo db
+      MONGO_URI: mongodb://admin:root@mongo:27017/URLShortner?authSource=admin 
+    depends_on: #this tag tells Docker which service should start before another one
+      - mongo
+    volumes:
+      - SessionID-Data:/app/SessionData
+
+volumes: # here at the bottom of compose file we have to declare name of volumes used in services this only required for named volumes
+  mongo-data:
+  SessionID-Data:
+
