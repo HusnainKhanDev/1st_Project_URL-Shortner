@@ -6,7 +6,7 @@ let USERMW = require("../MiddleWare/User_Auth")
 //these are the routes used for redirecting on view pages 
 module.exports = (app) => {
     
-    app.get("/signup", (req, res) => {
+    app.get("/", (req, res) => {
         res.render("Signup");  
     });
 

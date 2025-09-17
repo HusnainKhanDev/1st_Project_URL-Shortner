@@ -11,7 +11,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: root
 
   urlshortner: #this is called service name used for network communication inside Compose. 
-    image: myapp:1.0 # here instead of myapp:1.0  image name we can also use build: . to build the image using Dockerfile directly
+    image: urlshortnerimage:1.0 # here instead of myapp:1.0  image name we can also use build: . to build the image using Dockerfile directly
     container_name: urlshortnerapp
     ports:
       - "8484:8484"
